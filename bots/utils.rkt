@@ -4,14 +4,25 @@
 (require racket/string
          )
 
-(provide any
-         all
+(provide any?
+         all?
          words
          unwords
          )
 
-(define (any input-list) 0)
-(define (all input-list) 0)
+(define (any? input-list)
+  (if (empty? input-list)
+      #f
+      (if (= #t (car input-list))
+          #t
+          (any (cdr input-list)))))
+
+(define (all? input-list)
+  (if (empty? input-list)
+      #t
+      (if (= #f (car input-list))
+          #f
+          (all (cdr input-list)))))
 
 
 ; words recreates functionality from Haskell's word function
@@ -23,7 +34,14 @@
 
 ; same with unwords
 (define (unwords input-list)
+  (unless (all? (map string? input-list))
+    (error "input-list: list is not all strings"))
   (string-join input-list " "))
+
+
+
+
+(define (string-begins-with? ))
   
 
 
